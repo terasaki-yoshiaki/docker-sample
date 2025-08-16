@@ -1,23 +1,21 @@
-# Node.jsの実行環境として最新のバージョンを使用
-FROM node:latest
+# Build stage
+FROM node:latest AS builder
 
-# コンテナ内の作業ディレクトリを設定
 WORKDIR /app
-
-# package.jsonとpackage-lock.jsonをコンテナにコピー
 COPY package*.json ./
-
-# 依存関係をインストール
 RUN npm install
-
-# アプリケーションのソースコードをコピー
 COPY . .
-
-# アプリケーションをビルド
 RUN npm run build
 
-# コンテナがリッスンするポートを指定
+# Production stage
+FROM nginx:alpine
+
+# Copy built files from builder stage
+COPY --from=builder /app/web-build /usr/share/nginx/html
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 3000
 
-# コンテナ起動時にアプリケーションを起動
-CMD ["npm", "start"]
+CMD ["nginx", "-g", "daemon off;"]

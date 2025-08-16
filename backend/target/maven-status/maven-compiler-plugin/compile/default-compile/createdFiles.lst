@@ -1,0 +1,6 @@
+com\calculator\config\WebConfig.class
+com\calculator\model\CalculationResponse.class
+com\calculator\CalculatorApplication.class
+com\calculator\model\CalculationRequest.class
+com\calculator\service\CalculatorService.class
+com\calculator\controller\CalculatorController.class

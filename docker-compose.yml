@@ -21,6 +21,7 @@ services:
       - calculator-network
     environment:
       - NODE_ENV=production
+      - REACT_APP_API_URL=http://localhost:8080
     depends_on:
       - backend
     restart: unless-stopped
