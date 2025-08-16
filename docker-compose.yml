@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: calculator-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - calculator-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: react-native-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - calculator-network
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  calculator-network:
+    driver: bridge
